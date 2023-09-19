@@ -40,57 +40,63 @@ typedef double Flow;
 
 #define show(expr)     printf(#expr " = %g\n", expr)
 
+class McnfOracle {
+ public:
 
-static McnfGraph *network;
-static McnfDemand *demand;
-static HighsInt nb_demand;
-static double *d_tableau, *net_cost;
-static HighsInt *prec_tableau;
-static HighsInt *dijkstra_from_node;
+  McnfGraph *network_;
+  McnfDemand *demand_;
+  HighsInt nb_demand_;
+  double *d_tableau_;
+  double *net_cost_;
+  HighsInt *prec_tableau_;
+  HighsInt *dijkstra_from_node_;
 
-static HighsInt m_graph, 
-           n_graph, 
-           *or_graph, 
-           *ex_graph,
-           nbr_demand_graph;
+  HighsInt m_graph_; 
+  HighsInt n_graph_; 
+  HighsInt *or_graph_; 
+  HighsInt *ex_graph_;
+  HighsInt nbr_demand_graph_;
 
-static double *capac_graph, *cout_graph;
+  double *capac_graph_;
+  double *cout_graph_;
 
-static McnfDemand *dem_graph;
+  McnfDemand *dem_graph_;
 
-static void adjacency_list(McnfGraph*);
-static void succesor_list(McnfGraph*);
+  void adjacency_list(McnfGraph* fred);
+  void succesor_list(McnfGraph* fred);
 
-static HighsInt *active_set;
-static HighsInt active_set_n;
+  HighsInt *active_set_;
+  HighsInt active_set_n_;
+  HighsInt USE_ACTIVE_SET_;
 
-static HighsInt *source_nodes;
-static HighsInt *source_nodes_len;
-static HighsInt *source_nodes_commodities;
-static HighsInt source_nodes_n;
+  HighsInt *source_nodes_;
+  HighsInt *source_nodes_len_;
+  HighsInt *source_nodes_commodities_;
+  HighsInt source_nodes_n_;
 
-static double max_cap;
-static double max_cost;
+  double max_cap_;
+  double max_cost_;
 
-/* Parse the input given in the text line */
-static void parseInput(int argc, char *argv[], HighsInt *aggregated, HighsInt *oriented, 
-		       char DefltFlnme[], HighsInt *begin_zero, HighsInt *with_cost);
+  /* Parse the input given in the text line */
+  void parseInput(int argc, char *argv[], HighsInt *aggregated, HighsInt *oriented, 
+		  char DefltFlnme[], HighsInt *begin_zero, HighsInt *with_cost);
 
-/* Read the instance data from an input file */
-void read_instance(char file_name[], HighsInt zero, HighsInt aggregated);
+  /* Read the instance data from an input file */
+  void read_instance(char file_name[], HighsInt zero, HighsInt aggregated);
 
-/* Header functions of the Dijkstra algorithm */
-void set_network_Dijkstra(McnfGraph *G, McnfDemand **dem, HighsInt *nb_dem, HighsInt oriented);
-void init_Dijkstra (McnfGraph * G, McnfDemand * dem, HighsInt nb_dem);
-void Reset_Dijkstra (McnfGraph * H);
-void Dijkstra_solve (McnfGraph * H, Vertex org, Vertex ex, double *cost);
+  /* Header functions of the Dijkstra algorithm */
+  void set_network_Dijkstra(McnfGraph *G, McnfDemand **dem, HighsInt *nb_dem, HighsInt oriented);
+  void init_Dijkstra (McnfGraph * G, McnfDemand * dem, HighsInt nb_dem);
+  void Reset_Dijkstra (McnfGraph * H);
+  void Dijkstra_solve (McnfGraph * H, Vertex org, Vertex ex, double *cost);
 
-/* Generate a *sparse* column using the flow of a shortest path found by the Dijkstra algorithm */
-/* It is used in the disaggregated oracle */
-HighsInt get_solution_from_Dijkstra(McnfGraph * G, HighsPdcgm_SMatrix_CW * M, HighsInt orig, HighsInt extr, double val);
+  /* Generate a *sparse* column using the flow of a shortest path found by the Dijkstra algorithm */
+  /* It is used in the disaggregated oracle */
+  HighsInt get_solution_from_Dijkstra(McnfGraph * G, HighsPdcgm_SMatrix_CW * M, HighsInt orig, HighsInt extr, double val);
 
-/* Add to a dense column the flow of a shortest path obtained by the Dijkstra algorithm */
-/* It is used in the aggregated oracle */
-HighsInt add_solution_from_Dijkstra(McnfGraph * G, double *vector, HighsInt orig, HighsInt extr, double val);
+  /* Add to a dense column the flow of a shortest path obtained by the Dijkstra algorithm */
+  /* It is used in the aggregated oracle */
+  HighsInt add_solution_from_Dijkstra(McnfGraph * G, double *vector, HighsInt orig, HighsInt extr, double val);
+};
 
 #endif

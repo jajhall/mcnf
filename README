@@ -1,0 +1,10 @@
+Had to make the folloing static
+
+double max_cap;
+double max_cost;
+
+Make class data members and methods conform to naming convention
+
+Remove French
+
+Eliminate the use of pointer + i to make code readable
